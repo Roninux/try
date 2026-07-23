@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { SignUp } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { UserPlus, Upload, Share2 } from "lucide-react";
-// import { getUser } from "@/actions/user.actions";
+import { getUser } from "@/actions/user.actions";
 
 const STEPS = [
   { icon: UserPlus, label: "Sign Up" },
@@ -15,13 +15,13 @@ export default async function SignUpPage() {
   // ── Auth guard (same logic as landing page) ─────────────────────
   const clerkUser = await currentUser();
 
-  // if (clerkUser) {
-  //   const dbUser = await getUser(clerkUser.id);
-  //   if (dbUser) {
-  //     if (dbUser.onboarded) redirect("/main");
-  //     redirect("/onboarding");
-  //   }
-  // }
+  if (clerkUser) {
+    const dbUser = await getUser(clerkUser.id);
+    if (dbUser) {
+      if (dbUser.onboarded) redirect("/main");
+      redirect("/onboarding");
+    }
+  }
 
   return (
     <main className="min-h-screen w-full bg-white flex items-center justify-center px-4 py-12 sm:px-8">
