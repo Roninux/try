@@ -1,6 +1,7 @@
-"use server";
-
-// Placeholder — full implementation added when Prisma + DB are connected.
-export async function getUser(clerkUserId: string) {
-  return null;
-}
+// Re-exports from the real implementation so all existing imports resolve correctly.
+export {
+  createOrUpdateUser,
+  deleteUser,
+  getUser,
+  type ClerkUserWebhookData,
+} from "@/app/server/actions/user.actions";
