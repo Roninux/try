@@ -2,11 +2,13 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
 // Routes that are publicly accessible without authentication.
 const isPublicRoute = createRouteMatcher([
-  '/',             // Landing page
-  '/sign-in(.*)', // Clerk sign-in catch-all
-  '/sign-up(.*)', // Clerk sign-up catch-all
-  '/f/(.*)',       // Public file download pages
+  '/',                       // Landing page
+  '/sign-in(.*)',            // Clerk sign-in catch-all
+  '/sign-up(.*)',            // Clerk sign-up catch-all
+  '/f/(.*)',                 // Public file download pages
+  '/api/webhooks/clerk',    // Clerk webhook — called by Clerk servers, not users
 ])
+
 
 export default clerkMiddleware(async (auth, request) => {
   // Protect every route that is NOT in the public list.
