@@ -76,6 +76,36 @@ export async function createOrUpdateUser(data: ClerkUserWebhookData) {
 }
 
 // ------------------------------------------------------------------
+// onboardUser
+// Called when the user submits the onboarding form.
+// Updates their profile fields and marks onboarding as complete.
+// ------------------------------------------------------------------
+export async function onboardUser(
+  clerkUserId: string,
+  data: { name: string; username: string; email: string }
+) {
+  try {
+    const user = await prisma.user.update({
+      where: { clerkUserId },
+      data: {
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        onboarded: true,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    throw new Error(
+      `onboardUser failed for Clerk ID "${clerkUserId}": ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
+  }
+}
+
+// ------------------------------------------------------------------
 // deleteUser
 // Deletes the User row that matches the given Clerk user ID.
 // Called by the Clerk webhook on user.deleted events.
