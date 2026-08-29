@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans, Playfair_Display } from "next/font/google";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const playfairDisplayHeading = Playfair_Display({subsets:['latin'],variable:'--font-heading'});
@@ -50,6 +51,7 @@ export default function RootLayout({
           </header>
           {children}
         </ClerkProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
