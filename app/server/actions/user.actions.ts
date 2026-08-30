@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { onboardingFormSchema } from "@/app/onboarding/validations/onboarding";
 
 // ------------------------------------------------------------------
 // Type — shape of the data Clerk sends in user.created / user.updated
@@ -76,32 +77,55 @@ export async function createOrUpdateUser(data: ClerkUserWebhookData) {
 }
 
 // ------------------------------------------------------------------
+// OnboardingData
+// Represents the data submitted during user onboarding.
+// ------------------------------------------------------------------
+export type OnboardingData = {
+  name: string;
+  email: string;
+  username: string;
+};
+
+// ------------------------------------------------------------------
 // onboardUser
 // Called when the user submits the onboarding form.
-// Updates their profile fields and marks onboarding as complete.
+// Validates the incoming data, then updates the user record and
+// marks onboarding as complete.
+// Returns a structured { success, user | error } response.
 // ------------------------------------------------------------------
 export async function onboardUser(
   clerkUserId: string,
-  data: { name: string; username: string; email: string }
+  data: OnboardingData
 ) {
   try {
+    // Validate against the onboarding Zod schema.
+    const parsed = onboardingFormSchema.safeParse(data);
+
+    if (!parsed.success) {
+      // Return the first validation error message.
+      const firstError = parsed.error.errors[0]?.message ?? "Invalid data.";
+      return { success: false, error: firstError } as const;
+    }
+
+    // Persist the validated data and mark onboarding complete.
     const user = await prisma.user.update({
       where: { clerkUserId },
       data: {
-        name: data.name,
-        username: data.username,
-        email: data.email,
+        name: parsed.data.name,
+        username: parsed.data.username,
+        email: parsed.data.email,
         onboarded: true,
       },
     });
 
-    return user;
+    return { success: true, user } as const;
   } catch (error) {
-    throw new Error(
-      `onboardUser failed for Clerk ID "${clerkUserId}": ${
+    return {
+      success: false,
+      error: `onboardUser failed for Clerk ID "${clerkUserId}": ${
         error instanceof Error ? error.message : String(error)
-      }`
-    );
+      }`,
+    } as const;
   }
 }
 
