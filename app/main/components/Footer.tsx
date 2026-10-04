@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Footer — sits at the bottom of every /main page.
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -33,6 +34,18 @@ export default function Footer() {
             marginTop: "0.25rem",
           }}
         >
+=======
+export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="bg-white border-t mt-auto">
+      <div className="container mx-auto px-4 py-6 max-w-7xl flex flex-col items-center justify-center space-y-1">
+        <p className="text-gray-900 font-medium text-center">
+          &copy; {currentYear} FileHub. All rights reserved.
+        </p>
+        <p className="text-gray-400 text-sm text-center">
+>>>>>>> 0f15419 ( hub v2)
           File Sharing Made Simple
         </p>
       </div>

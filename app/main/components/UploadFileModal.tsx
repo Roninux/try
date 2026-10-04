@@ -1,6 +1,10 @@
 "use client";
 
+<<<<<<< HEAD
 import { Upload } from "lucide-react";
+=======
+import { UploadCloud } from "lucide-react";
+>>>>>>> 0f15419 ( hub v2)
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+<<<<<<< HEAD
 import UploadFileForm from "@/app/main/components/UploadFileForm";
 
 // UploadFileModal
@@ -99,6 +104,44 @@ export default function UploadFileModal() {
 
             {/* UploadFileForm will handle the actual upload logic */}
             <UploadFileForm />
+=======
+// @ts-ignore - Component to be implemented later
+import UploadFileForm from "./UploadFileForm";
+
+export default function UploadFileModal() {
+  return (
+    <section className="min-h-[60vh] w-full flex flex-col items-center justify-center px-4 py-12 animate-in fade-in duration-500">
+      <div className="max-w-2xl w-full text-center space-y-8">
+        <div className="space-y-4">
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900">
+            Upload Your Files
+          </h1>
+          <p className="text-lg text-gray-600 max-w-xl mx-auto">
+            Securely upload your files and share them easily with anyone using a public link.
+          </p>
+        </div>
+
+        <Dialog>
+          <DialogTrigger
+            render={
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white gap-2 h-14 px-8 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+                <UploadCloud className="w-6 h-6" />
+                Upload File
+              </Button>
+            }
+          />
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold">Upload File</DialogTitle>
+              <DialogDescription>
+                Choose a file to upload to your FileHub storage.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="mt-4">
+              <UploadFileForm />
+            </div>
+>>>>>>> 0f15419 ( hub v2)
           </DialogContent>
         </Dialog>
       </div>

@@ -1,22 +1,35 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getUser } from "@/app/server/actions/user.actions";
-import UploadFileModal from "@/app/main/components/UploadFileModal";
+import UploadFileModal from "./components/UploadFileModal";
 
-// Main page — async server component.
-// Runs auth + onboarding checks before rendering any UI.
 export default async function MainPage() {
-  // 1. Verify there is a signed-in Clerk session.
+  // Check if there is a signed-in Clerk user
   const clerkUser = await currentUser();
-  if (!clerkUser) redirect("/sign-in");
 
-  // 2. Fetch the matching database user.
+  // If no Clerk user exists, immediately redirect to sign-in
+  if (!clerkUser) {
+    redirect("/sign-in");
+  }
+
+  // Fetch the database user using the Clerk user's ID
   const dbUser = await getUser(clerkUser.id);
-  if (!dbUser) redirect("/sign-in");
 
-  // 3. Ensure the user has completed onboarding.
-  if (!dbUser.onboarded) redirect("/onboarding");
+  // If no database user is found, redirect to sign-in as a safety fallback
+  if (!dbUser) {
+    redirect("/sign-in");
+  }
 
-  // 4. All checks passed — render the main UI.
-  return <UploadFileModal />;
+  // If the database user exists but is not onboarded, redirect to onboarding
+  // @ts-ignore - Assuming onboarded exists on dbUser model
+  if (!dbUser.onboarded) {
+    redirect("/onboarding");
+  }
+
+  // If all checks pass, render the UploadFileModal
+  return (
+    <div className="flex-1 w-full flex items-center justify-center p-4 min-h-[calc(100vh-160px)]">
+      <UploadFileModal />
+    </div>
+  );
 }

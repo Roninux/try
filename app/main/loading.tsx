@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Loading skeleton for the /main route.
 // Visually represents the page layout while data is being fetched.
 export default function Loading() {
@@ -25,6 +26,14 @@ export default function Loading() {
           </div>
         ))}
       </div>
+=======
+export default function Loading() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 w-full">
+      <div className="w-64 h-64 rounded-xl bg-gray-200 animate-pulse" />
+      <div className="w-80 h-10 rounded-md bg-gray-200 animate-pulse" />
+      <div className="w-48 h-4 rounded-md bg-gray-200 animate-pulse" />
+>>>>>>> 0f15419 ( hub v2)
     </div>
   );
 }

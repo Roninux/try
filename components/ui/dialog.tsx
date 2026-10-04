@@ -2,8 +2,13 @@
 
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
+<<<<<<< HEAD
 
 import { cn } from "@/lib/utils"
+=======
+import { cn } from "cn"
+
+>>>>>>> 0f15419 ( hub v2)
 import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 

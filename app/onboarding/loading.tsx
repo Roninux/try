@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Mirrors the expected structure of the onboarding form page.
@@ -21,6 +22,12 @@ export default function OnboardingLoading() {
         {/* Submit button */}
         <Skeleton className="h-11 w-full rounded-lg" />
       </div>
+=======
+export default function Loading() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-[#6c47ff]"></div>
+>>>>>>> 0f15419 ( hub v2)
     </div>
   );
 }

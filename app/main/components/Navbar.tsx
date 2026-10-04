@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 
@@ -75,12 +76,56 @@ export default function Navbar() {
             ((e.currentTarget as HTMLDivElement).style.transform = "scale(1)")
           }
         >
+=======
+import Image from "next/image";
+import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
+import { UploadCloud, Folder } from "lucide-react";
+
+export default function Navbar() {
+  return (
+    <nav className="sticky top-0 z-50 bg-white border-b shadow-sm">
+      <div className="container mx-auto px-4 max-w-7xl h-16 flex items-center justify-between">
+        {/* Left side: Logo */}
+        <Link 
+          href="/main" 
+          className="flex items-center gap-2 hover:scale-105 transition-transform duration-200"
+        >
+          {/* Use a placeholder image, assuming logo will be added later */}
+          <div className="w-10 h-10 bg-blue-600 rounded flex items-center justify-center text-white font-bold text-xl">
+            FH
+          </div>
+          <span className="font-bold text-xl hidden sm:block text-gray-900">FileHub</span>
+        </Link>
+
+        {/* Center: Navigation Links */}
+        <div className="flex items-center gap-8">
+          <Link
+            href="/main"
+            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 hover:scale-105 transition-all duration-200 font-medium"
+          >
+            <UploadCloud size={20} />
+            <span>Add File</span>
+          </Link>
+          <Link
+            href="/main/files"
+            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 hover:scale-105 transition-all duration-200 font-medium"
+          >
+            <Folder size={20} />
+            <span>My Files</span>
+          </Link>
+        </div>
+
+        {/* Right side: User Button */}
+        <div className="flex items-center hover:scale-105 transition-transform duration-200">
+>>>>>>> 0f15419 ( hub v2)
           <UserButton />
         </div>
       </div>
     </nav>
   );
 }
+<<<<<<< HEAD
 
 // ── NavLink helper ────────────────────────────────────────────────────
 function NavLink({
@@ -125,3 +170,5 @@ function NavLink({
     </Link>
   );
 }
+=======
+>>>>>>> 0f15419 ( hub v2)

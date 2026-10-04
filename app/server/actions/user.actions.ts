@@ -5,6 +5,7 @@ import { onboardingFormSchema } from "@/app/onboarding/validations/onboarding";
 
 // ------------------------------------------------------------------
 // Type — shape of the data Clerk sends in user.created / user.updated
+// Type — shape of the data Clerk sends in user.created / user.updated
 // webhook events.
 // ------------------------------------------------------------------
 export type ClerkUserWebhookData = {
@@ -167,5 +168,70 @@ export async function getUser(clerkUserId: string) {
         error instanceof Error ? error.message : String(error)
       }`
     );
+  }
+}
+
+// ------------------------------------------------------------------
+// completeOnboarding
+// Marks a user as onboarded by setting onboarded to true.
+// ------------------------------------------------------------------
+export async function completeOnboarding(clerkUserId: string) {
+  try {
+    const user = await prisma.user.update({
+      where: { clerkUserId },
+      data: { onboarded: true },
+    });
+
+    return user;
+  } catch (error) {
+    throw new Error(
+      `completeOnboarding failed for Clerk ID "${clerkUserId}": ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
+  }
+}
+
+// ------------------------------------------------------------------
+// onboardUser
+// Validates onboarding data and updates the user.
+// ------------------------------------------------------------------
+export type OnboardingData = {
+  name: string;
+  email: string;
+  username: string;
+};
+
+export async function onboardUser(clerkUserId: string, data: OnboardingData) {
+  try {
+    const { onboardingFormSchema } = await import("@/app/onboarding/validations/onboarding");
+    const validatedData = onboardingFormSchema.safeParse(data);
+
+    if (!validatedData.success) {
+      return {
+        success: false,
+        error: validatedData.error.issues[0].message,
+      };
+    }
+
+    const user = await prisma.user.update({
+      where: { clerkUserId },
+      data: {
+        name: validatedData.data.name,
+        email: validatedData.data.email,
+        username: validatedData.data.username,
+        onboarded: true,
+      },
+    });
+
+    return {
+      success: true,
+      user,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "An unexpected error occurred during onboarding.",
+    };
   }
 }
